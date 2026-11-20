@@ -1,0 +1,35 @@
+# Cloudflare Workers 部署配置（静态资源模式）。
+#
+# 为什么是 Workers 不是 Pages：付费系统要用的 Workers Logs、Rate Limiting 绑定、
+# Cron Triggers、Queue Consumers 在 Pages 上全部不支持，Durable Objects 也只能
+# 另建 Worker 绕。Pages 唯一独有的「NS 不在 Cloudflare 的自定义域」已不适用。
+#
+# 部署：npx wrangler deploy
+
+name = "inktotype"
+compatibility_date = "2026-08-07"
+
+# 临时预览子域。绑好 inktotype.com 并自测通过后改成 false，
+# 免得 workers.dev 上留一份和正式站内容重复的可抓取副本。
+workers_dev = false
+
+[assets]
+directory = "./out"
+
+# Pages 会自己去猜项目类型（找到 404.html 就当自定义 404，找到 index.html 就当 SPA）。
+# Workers 不猜，必须显式声明 —— 不写这行，未命中的 URL 只会返回一个空白 404，
+# 我们精心做的 /404.html 永远不会被用到。
+not_found_handling = "404-page"
+
+# 注意：这里刻意没有 main，也没有 assets.binding。
+# 纯静态站没有 Worker 脚本，binding = "ASSETS" 只在有 main 时才合法。
+# 等 L0 通过、开始建付费系统时，再加：
+#   main = "./worker/index.ts"
+#   [assets] binding = "ASSETS"
+#   [[d1_databases]] / [[durable_objects.bindings]] ...
+#
+# 自定义域：先 deploy 到 workers.dev 自测，通过后取消下面两行注释再 deploy，
+# Cloudflare 会自动建好 DNS 记录。
+[[routes]]
+pattern = "inktotype.com"
+custom_domain = true

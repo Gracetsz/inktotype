@@ -1,0 +1,20 @@
+# Cloudflare Pages 头部配置。放在 public/ 里，next build 会原样拷进 out/。
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+
+# Next 的静态资源文件名自带内容哈希，可以永久缓存。
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 没有指纹的静态文件，缓存一天。
+/icon.svg
+  Cache-Control: public, max-age=86400
+
+# 刻意没有加 CSP。这个站的卖点是"照片不出浏览器"，一条
+# connect-src 'self' 能把这句话变成浏览器强制执行的事实——
+# 但字体装配走的是 blob: URL 与 canvas，未经真机验证就上 CSP
+# 有直接打死下载功能的风险。等 /create/ 的浏览器实测跑完再加。

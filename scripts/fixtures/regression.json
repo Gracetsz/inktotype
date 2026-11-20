@@ -1,0 +1,16 @@
+{
+  "plain.jpg":  { "note": "IMG_8150 真实白纸，4 行，行明显右倾（a→z 掉 91px）",
+                  "rows": ["ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz","0123456789",",;.\"\"',:-"],
+                  "expect": { "chars": 71, "allRowsMatch": true },
+                  "minInk": { "i": 877, "j": 1278, ";": 591, "\"": 625, ":": 424 } },
+
+  "plain2.jpg": { "note": "IMG_8151 真实白纸，7 行（大写换3行、小写换2行），末尾有一处涂改",
+                  "rows": ["ABCDEFGHIJK","LMNOPQRSTUV","WXYZ","abcdefghijklmn","opqrstuvwxyz~","0123456789",",.!?'\"-():;&@#"],
+                  "expect": { "chars": 76, "allRowsMatch": true },
+                  "minInk": { "i": 464, "j": 805, "!": 590, "?": 645, "\"": 367, ":": 359, ";": 489 } },
+
+  "plain3.jpg": { "note": "IMG_8212 真实白纸，细笔，4 行标准顺序 —— 这张暴露了标点小点被全局面积阈值滤掉的 bug（: 丢了一个点，界面仍报 14/14）",
+                  "rows": ["ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz","0123456789",".,!?'\"-():;&@#"],
+                  "expect": { "chars": 76, "allRowsMatch": true },
+                  "minInk": { "i": 226, "j": 365, "!": 167, "?": 324, "\"": 189, ":": 115, ";": 166 } }
+}

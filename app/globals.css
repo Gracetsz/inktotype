@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --pur:#673AB8; --pur-d:#552f99; --pur-l:#f2eef9; --pur-m:#d7c9ef; --ink:#1e1b2e; }
+html { -webkit-text-size-adjust: 100%; }
+body { color: var(--ink); background: #fff; }
+
+/* 打印模板：屏幕上是预览，打印时铺满 A4 且不带浏览器页眉页脚 */
+@page { size: A4 portrait; margin: 0; }
+@media print {
+  /* 浏览器默认丢弃背景色与背景图。四角定位标记已改用 SVG <rect fill> 画，
+     不再依赖背景色；这条是第二层保险，同时保证格线与参考字的颜色如实印出。 */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print { display: none !important; }
+  /* 模板按 92% 印，这里把它在 A4 上下也居中：(297 - 297*0.92)/2 ≈ 11.9mm。
+     只居中横向不够 —— 打印时导航被隐藏，纸张会顶到页面最上沿，
+     上方两个定位标记又回到距纸边 8.6mm，等于白缩了。 */
+  .print-sheet { margin: 11.9mm auto !important; box-shadow: none !important; border: none !important; }
+  body { background: #fff !important; }
+}
